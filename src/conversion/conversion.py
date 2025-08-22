@@ -149,8 +149,21 @@ class Conversion:
             romano_a_decimal("IX") -> 9
             romano_a_decimal("MCMXCIV") -> 1994
         """
-        pass
-    
+        valores = {
+            "I": 1, "V": 5, "X": 10, "L": 50,
+            "C": 100, "D": 500, "M": 1000
+        }
+        total = 0
+        prev = 0
+        for letra in romano[::-1]:
+            valor = valores[letra]
+            if valor < prev:
+                total -= valor
+            else:
+                total += valor
+            prev = valor
+        return total
+
     def texto_a_morse(self, texto):
         """
         Convierte texto a código Morse.
@@ -166,17 +179,17 @@ class Conversion:
             texto_a_morse("HELLO") -> ".... . .-.. .-.. ---"
         """
         morse_dict = {
-            ".-": "A", "-...": "B", "-.-.": "C", "-..": "D", ".": "E",
-            "..-.": "F", "--.": "G", "....": "H", "..": "I", ".---": "J",
-            "-.-": "K", ".-..": "L", "--": "M", "-.": "N", "---": "O",
-            ".--.": "P", "--.-": "Q", ".-.": "R", "...": "S", "-": "T",
-            "..-": "U", "...-": "V", ".--": "W", "-..-": "X", "-.--": "Y",
-            "--..": "Z", "-----": "0", ".----": "1", "..---": "2",
-            "...--": "3", "....-": "4", ".....": "5", "-....": "6",
-            "--...": "7", "---..": "8", "----.": "9"
+            "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".",
+            "F": "..-.", "G": "--.", "H": "....", "I": "..", "J": ".---",
+            "K": "-.-", "L": ".-..", "M": "--", "N": "-.", "O": "---",
+            "P": ".--.", "Q": "--.-", "R": ".-.", "S": "...", "T": "-",
+            "U": "..-", "V": "...-", "W": ".--", "X": "-..-", "Y": "-.--",
+            "Z": "--..", "0": "-----", "1": ".----", "2": "..---",
+            "3": "...--", "4": "....-", "5": ".....", "6": "-....",
+            "7": "--...", "8": "---..", "9": "----."
         }
-        palabras = morse.split(" ")
-        return "".join(morse_dict[code] for code in palabras if code in morse_dict)
+        texto = texto.upper()
+        return " ".join(morse_dict[char] for char in texto if char in morse_dict)
 
     
     def morse_a_texto(self, morse):
@@ -193,4 +206,15 @@ class Conversion:
             morse_a_texto("... --- ...") -> "SOS"
             morse_a_texto(".... . .-.. .-.. ---") -> "HELLO"
         """
-        pass
+        morse_dict = {
+            ".-": "A", "-...": "B", "-.-.": "C", "-..": "D", ".": "E",
+            "..-.": "F", "--.": "G", "....": "H", "..": "I", ".---": "J",
+            "-.-": "K", ".-..": "L", "--": "M", "-.": "N", "---": "O",
+            ".--.": "P", "--.-": "Q", ".-.": "R", "...": "S", "-": "T",
+            "..-": "U", "...-": "V", ".--": "W", "-..-": "X", "-.--": "Y",
+            "--..": "Z", "-----": "0", ".----": "1", "..---": "2",
+            "...--": "3", "....-": "4", ".....": "5", "-....": "6",
+            "--...": "7", "---..": "8", "----.": "9"
+        }
+        palabras = morse.split(" ")
+        return "".join(morse_dict[code] for code in palabras if code in morse_dict)
