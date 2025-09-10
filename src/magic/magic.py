@@ -44,13 +44,17 @@ class Magic:
         
         return [i for i, es in enumerate(es_primo) if es]
 
-    def es_numero_perfecto(self, n):
+    def es_numero_perfecto(n):
         if n < 2:
             return False
-        
-        suma = sum([i for i in range(1, int(n**0.5) + 1) if n % i == 0 for i in [i, n // i]])
-        suma -= n + n*0.5 if n 0.5 == int(n*0.5) else 0
-
+    
+        suma = 1 
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                suma += i
+                if i != n // i:  
+                    suma += n // i
+    
         return suma == n
     
     def triangulo_pascal(self, filas):
