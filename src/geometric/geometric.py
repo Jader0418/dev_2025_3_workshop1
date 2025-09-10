@@ -81,4 +81,4 @@ class Geometria:
         return (perimetro * apotema) / 2
     
     def perimetro_poligono_regular(self, num_lados, lado):
-        return num_lados * lado
+        return num_lados * lado 
