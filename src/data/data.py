@@ -11,15 +11,19 @@ class Data:
         except ValueError:
             return -1
 
-    def eliminar_duplicados(self, lista):
-        resultado = []
-        elementos_vistos = {}
-        for elemento in lista:
-            if elemento not in elementos_vistos:
-                elementos_vistos[elemento] = True
-                resultado.append(elemento)
-        return resultado
+    def es_numero_perfecto(n):
+        if n < 2:
+            return False
 
+        suma = 1
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                suma += i
+            if i != n // i:
+                suma += n // i
+
+        return suma == n
+        
     def merge_ordenado(self, lista1, lista2):
         from itertools import chain
         return sorted(chain(lista1, lista2))
