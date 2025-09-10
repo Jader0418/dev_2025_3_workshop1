@@ -1,151 +1,107 @@
 class Magic:
-    """
-    Clase con métodos para juegos matemáticos, secuencias especiales y algoritmos numéricos.
-    Incluye implementaciones de Fibonacci, números perfectos, triangulo de pascal etc.
-    """
-    
+
     def fibonacci(self, n):
-        """
-        Calcula el n-ésimo número de la secuencia de Fibonacci.
+        if n < 0:
+            raise ValueError("n debe ser un número entero no negativo")
+        if n in {0, 1}:
+            return n
         
-        Args:
-            n (int): Posición en la secuencia (empezando desde 0)
-            
-        Returns:
-            int: El n-ésimo número de Fibonacci
-        """
-        pass
+        a, b = 0, 1
+        for _ in range(2, n + 1):
+            a, b = b, a + b
+        return b
     
     def secuencia_fibonacci(self, n):
-        """
-        Genera los primeros n números de la secuencia de Fibonacci.
+        if n <= 0:
+            return []
         
-        Args:
-            n (int): Cantidad de números a generar
-            
-        Returns:
-            list: Lista con los primeros n números de Fibonacci
-        """
-        pass
+        secuencia = [0]
+        if n > 1:
+            secuencia.append(1)
+            for _ in range(2, n):
+                secuencia.append(secuencia[-1] + secuencia[-2])
+        return secuencia
     
     def es_primo(self, n):
-        """
-        Verifica si un número es primo.
-        
-        Args:
-            n (int): Número a verificar
-            
-        Returns:
-            bool: True si n es primo, False en caso contrario
-        """
-        pass
+        if n <= 1 or (n % 2 == 0 and n > 2):
+            return False
+        for i in range(3, int(n**0.5) + 1, 2):
+            if n % i == 0:
+                return False
+        return True
     
     def generar_primos(self, n):
-        """
-        Genera una lista de números primos hasta n.
+        if n < 2:
+            return []
         
-        Args:
-            n (int): Límite superior para generar primos
-            
-        Returns:
-            list: Lista de números primos hasta n
-        """
-        pass
-    
+        es_primo = [True] * (n + 1)
+        es_primo[0] = es_primo[1] = False
+        
+        for p in range(2, int(n**0.5) + 1):
+            if es_primo[p]:
+                for i in range(p * p, n + 1, p):
+                    es_primo[i] = False
+        
+        return [i for i, es in enumerate(es_primo) if es]
+
     def es_numero_perfecto(self, n):
-        """
-        Verifica si un número es perfecto (igual a la suma de sus divisores propios).
+        if n < 2:
+            return False
         
-        Args:
-            n (int): Número a verificar
-            
-        Returns:
-            bool: True si n es un número perfecto, False en caso contrario
-        """
-        pass
+        suma = sum([i for i in range(1, int(n**0.5) + 1) if n % i == 0 for i in [i, n // i]])
+        suma -= n + n*0.5 if n 0.5 == int(n*0.5) else 0
+
+        return suma == n
     
     def triangulo_pascal(self, filas):
-        """
-        Genera las primeras n filas del triángulo de Pascal.
+        if filas <= 0:
+            return []
         
-        Args:
-            filas (int): Número de filas a generar
-            
-        Returns:
-            list: Lista de listas que representa el triángulo de Pascal
-        """
-        pass
+        triangulo = []
+        for i in range(filas):
+            fila = [1] * (i + 1)
+            for j in range(1, i):
+                fila[j] = triangulo[i-1][j-1] + triangulo[i-1][j]
+            triangulo.append(fila)
+        return triangulo
     
     def factorial(self, n):
-        """
-        Calcula el factorial de un número.
+        if n < 0:
+            raise ValueError("El factorial no está definido para números negativos")
+        if n <= 1:
+            return 1
         
-        Args:
-            n (int): Número para calcular su factorial
-            
-        Returns:
-            int: El factorial de n
-        """
-        pass
+        resultado = 1
+        for i in range(2, n + 1):
+            resultado *= i
+        return resultado
     
     def mcd(self, a, b):
-        """
-        Calcula el máximo común divisor de dos números.
-        
-        Args:
-            a (int): Primer número
-            b (int): Segundo número
-            
-        Returns:
-            int: El máximo común divisor de a y b
-        """
-        pass
-    
+        from math import gcd
+        return gcd(a, b)
+
     def mcm(self, a, b):
-        """
-        Calcula el mínimo común múltiplo de dos números.
-        
-        Args:
-            a (int): Primer número
-            b (int): Segundo número
-            
-        Returns:
-            int: El mínimo común múltiplo de a y b
-        """
-        pass
-    
+        from math import gcd
+        return abs(a * b) // gcd(a, b) if a and b else 0
+
     def suma_digitos(self, n):
-        """
-        Calcula la suma de los dígitos de un número.
-        
-        Args:
-            n (int): Número para sumar sus dígitos
-            
-        Returns:
-            int: La suma de los dígitos de n
-        """
-        pass
+        return sum(int(digito) for digito in str(abs(n)))
     
     def es_numero_armstrong(self, n):
-        """
-        Verifica si un número es de Armstrong (igual a la suma de sus dígitos elevados a la potencia del número de dígitos).
-        
-        Args:
-            n (int): Número a verificar
-            
-        Returns:
-            bool: True si n es un número de Armstrong, False en caso contrario
-        """
-        pass
+        s = str(n)
+        return sum(int(digito)**len(s) for digito in s) == n
     
     def es_cuadrado_magico(self, matriz):
-        """
-        Verifica si una matriz es un cuadrado mágico (suma igual en filas, columnas y diagonales).
+        n = len(matriz)
+        if n == 0 or any(len(fila) != n for fila in matriz):
+            return False
         
-        Args:
-            matriz (list): Lista de listas que representa una matriz cuadrada
-            
-        Returns:
-            bool: True si es un cuadrado mágico, False en caso contrario
-        """
-        pass
+        suma_objetivo = sum(matriz[0])
+        
+        filas_validas = all(sum(fila) == suma_objetivo for fila in matriz)
+        columnas_validas = all(sum(matriz[fila][col] for fila in range(n)) == suma_objetivo for col in range(n))
+        
+        diagonal1 = sum(matriz[i][i] for i in range(n)) == suma_objetivo
+        diagonal2 = sum(matriz[i][n - 1 - i] for i in range(n)) == suma_objetivo
+        
+        return filas_validas and columnas_validas and diagonal1 and diagonal2
